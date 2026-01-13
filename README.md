@@ -5,12 +5,12 @@
 
 **Team Members:**
 1. [Member 1 Name Placeholder]
-2. [Member 2 Name Placeholder]
+2. Sasha Roosen-Saba
 3. [Member 3 Name Placeholder]
 4. [Member 4 Name Placeholder]
 
 ## Project Overview
-This system is designed to demonstrate distributed software principles, including:
+This is a project that will use software system design 
 - Modular Design
 - Network Communication
 - Security Fundamentals
