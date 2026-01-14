@@ -6,8 +6,10 @@
 **Team Members:**
 1. Parry Zhuo
 2. Sasha Roosen-Saba
-3. [Member 3 Name Placeholder]
+3. Bryce Reid
 4. Kale Wyse
+
+
 
 ## Project Overview
 This is a project that will use software system design 
