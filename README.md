@@ -4,7 +4,7 @@
 **Status:** In Development
 
 **Team Members:**
-1. Parry Zhuo ATTEMPT 2
+1. Parry Zhuo
 2. Sasha Roosen-Saba
 3. Bryce Reid
 4. [Member 4 Name Placeholder]
