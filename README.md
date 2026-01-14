@@ -4,9 +4,9 @@
 **Status:** In Development
 
 **Team Members:**
-1. Parry Zhuo ATTEMPT
-2. [Member 2 Name Placeholder]
-3. [Member 3 Name Placeholder]
+1. Parry Zhuo ATTEMPT 2
+2. Sasha Roosen-Saba
+3. Bryce Reid
 4. [Member 4 Name Placeholder]
 
 ## Project Overview
