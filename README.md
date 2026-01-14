@@ -10,7 +10,7 @@
 4. [Member 4 Name Placeholder]
 
 ## Project Overview
-This system is designed to demonstrate distributed software principles, including:
+This is a project that will use software system design 
 - Modular Design
 - Network Communication
 - Security Fundamentals
