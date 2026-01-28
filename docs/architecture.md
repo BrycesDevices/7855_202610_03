@@ -1,7 +1,6 @@
 
 # System Architecture - The CUBE
 
-
 ## Context Diagram 
 ```mermaid 
 graph TD
@@ -14,11 +13,10 @@ graph TD
 
 ```
 
+## Component Diagram
 
 ```mermaid 
 
-
-## 
 graph LR
     subgraph Hardware
         P[Piezo-electric button] -- Analog --> ADC[ADC]
@@ -29,8 +27,10 @@ graph LR
 
     subgraph Software
         W_APP_CLIENT[Client/Gui]
-        subgraph Server
-            W_APP_SERVER[Server]
+        subgraph Services
+            CUBE_COMM[Hardware Interface]
+            WEBSITE_COMM[Website Interface]
+            DB_COMM[Data Bade Interface]
         end
         DB[(Database)]
         
@@ -40,7 +40,12 @@ graph LR
 
  
     %% Communication Flows
-    W_APP_CLIENT <--> W_APP_SERVER
-    ESP <--> W_APP_SERVER
-    W_APP_SERVER <--> DB
+    W_APP_CLIENT <--> WEBSITE_COMM
+    WEBSITE_COMM <--> CUBE_COMM
+    WEBSITE_COMM <--> DB_COMM
+    DB_COMM <--> DB
+    ESP <--> CUBE_COMM
+    
 ```
+
+## Arcitechtural Pattern Justification 
