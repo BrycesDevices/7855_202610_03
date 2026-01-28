@@ -5,15 +5,33 @@
 
 
 ## Features 
+### Musts
 - **Press to Meditate**
 - **Webapp Control of Cube**
 - **Customizable Colors**
 - **Customizable Breathing Paterns**
 - **Customizable Times**
-- **Meditation Tracking**
-- 
+
+
+### Shoulds
+- **Meditation Time/Date Tracking**
+- **Store Previous Sessions**
+
+### Coulds
+- **Server Hosted Web App Accesible Online**
+- **Colors Change Based on Time of Day**
+- **Store Data Based on User**
+
+
+### Won'ts
 -
 -
+-
+
+
+
+
+
 
 
 ```mermaid 
@@ -26,6 +44,7 @@ graph TD
     ESP <--> W_APP
 
 ```
+
 
 ```mermaid 
 graph LR
