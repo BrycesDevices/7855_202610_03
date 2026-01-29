@@ -17,34 +17,28 @@ graph TD
 
 ```mermaid 
 
-graph LR
-    subgraph Hardware
-        P[Piezo-electric button] -- Analog --> ADC[ADC]
-        ADC --> ESP[ESP32]
-        ESP -- I2C --> LED_D[LED Driver]
-        LED_D --> RGBW[RGBW LED]
+flowchart TD
+    subgraph Client Layer
+        A(Web Application)
+        B(ESP32 Application)
     end
 
-    subgraph Software
-        W_APP_CLIENT[Client/Gui]
-        subgraph Services
-            CUBE_COMM[Hardware Interface]
-            WEBSITE_COMM[Website Interface]
-            DB_COMM[Data Bade Interface]
-        end
-        DB[(Database)]
-        
-
-
+    subgraph Service Layer
+        D(HW Interface Service)
+        E(Session Service)
     end
 
- 
-    %% Communication Flows
-    W_APP_CLIENT <--> WEBSITE_COMM
-    WEBSITE_COMM <--> CUBE_COMM
-    WEBSITE_COMM <--> DB_COMM
-    DB_COMM <--> DB
-    ESP <--> CUBE_COMM
+    subgraph Data Layer
+        F(Database Repository)
+        G(Database)
+    end
+
+    B <-->|Tx/Rx data/cmds| D
+    E -->|log session data| F
+    F -->|read/write data| G
+    D -->|update session data| E
+    A -->|review session data| E
+    A -->|update config or initiate meditation| D
     
 ```
 
