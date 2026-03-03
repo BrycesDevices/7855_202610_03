@@ -31,9 +31,21 @@ def get_timer_service():
 def login_required(f):
     @wraps(f)
     def wrapper(*args, **kwargs):
-        if "uid" not in session:
+        # 1. Grab the JWT from the secure cookie
+        token = request.cookies.get("jwt_token")
+        if not token:
             return redirect(url_for("web.login"))
-        return f(*args, **kwargs)
+
+        try:
+            # 2. Validate the JWT's cryptographic signature via Firebase
+            decoded_token = auth.verify_id_token(token)
+            # 3. Inject the uid into the request context for the route to use
+            request.uid = decoded_token["uid"]
+            return f(*args, **kwargs)
+        except Exception:
+            # Token is invalid or expired
+            return redirect(url_for("web.login"))
+
     return wrapper
 
 
@@ -46,17 +58,12 @@ def login_required(f):
 @login_required
 def home():
     """Home page."""
-    uid = session.get("uid")
+    uid = request.uid  # Grab uid from the verified request context
 
-    if uid:
-        svc = get_session_service()
-        presets = svc.get_all_task_presets(uid) or []
-        tasks = []
-        for index, preset in enumerate(presets, start=1):
-            tasks.append({"id": index, "name": preset})
-        return render_template("dashboard.html", tasks=tasks)
-
-    return redirect(url_for('web.login'))
+    svc = current_app.session_service
+    presets = svc.get_all_task_presets(uid) or []
+    tasks = [{"id": index, "name": preset} for index, preset in enumerate(presets, start=1)]
+    return render_template("dashboard.html", tasks=tasks)
 
 
 @web_bp.route("/login", methods=["GET", "POST"])
@@ -65,25 +72,23 @@ def login():
     if request.method == "GET":
         return render_template("login.html", api_key=WEB_API_KEY)
 
-    # Get Firebase ID token from header
     header = request.headers.get("Authorization", "")
     if not header or not header.startswith("Bearer "):
-        return render_template("login.html", error="Missing auth token")
+        return jsonify({"error": "Missing auth token"}), 400
+
     token = header.split(" ")[1]
 
     try:
-        # Decode token and extract uid
-        decoded_token = auth.verify_id_token(token)
-        uid = decoded_token["uid"]
+        # Verify it's a real token before creating the session
+        auth.verify_id_token(token)
 
-        # Create Flask session
-        session["uid"] = uid
-
-        return redirect(url_for("web.home"))
+        resp = redirect(url_for("web.home"))
+        # Store the JWT safely in an HttpOnly cookie
+        resp.set_cookie("jwt_token", token, httponly=True, secure=True, samesite="Lax")
+        return resp
 
     except Exception:
-        return render_template("login.html", error="Invalid or expired token")
-
+        return jsonify({"error": "Invalid or expired token"}), 401
 
 @web_bp.route("/signup", methods=["GET", "POST"])
 def signup():
@@ -124,9 +129,10 @@ def signup():
 @web_bp.route("/logout")
 @login_required
 def logout():
-    """Clear the session and return to login."""
-    session.clear()
-    return redirect(url_for('web.login'))
+    """Clear the JWT cookie and return to login."""
+    resp = redirect(url_for('web.login'))
+    resp.delete_cookie('jwt_token')
+    return resp
 
 
 @web_bp.route("/task/timer")

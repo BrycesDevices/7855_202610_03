@@ -1,16 +1,20 @@
 import os
 import re
+
+import dotenv
 from flask import jsonify, request
 from firebase_admin import auth
 from firebase_admin._auth_utils import EmailAlreadyExistsError
 from firebase_admin.exceptions import FirebaseError
 from bcrypt import hashpw, checkpw, gensalt
+from dotenv import load_dotenv
 
 
 ##########################################################################
 ###                        HELPER FUNCTIONS                            ###
 ##########################################################################
 
+load_dotenv()
 
 WEB_API_KEY = os.environ.get("FIREBASE_WEB_API_KEY")
 

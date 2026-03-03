@@ -28,10 +28,18 @@ def get_timer_service():
 
 def get_user_or_401():
     """Return the current API user or an Unauthorized response."""
+    token = None
     header = request.headers.get("Authorization")
-    if not header or not header.startswith("Bearer "):
-        return None, "Invalid token format"
-    token = header.split(" ")[1]
+
+    # 1. Check for standard Bearer token header
+    if header and header.startswith("Bearer "):
+        token = header.split(" ")[1]
+    # 2. Fall back to the secure cookie set by the web app
+    else:
+        token = request.cookies.get("jwt_token")
+
+    if not token:
+        return None, "Missing authentication token"
 
     try:
         # Validates cryptographic signature

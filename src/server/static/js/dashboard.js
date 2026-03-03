@@ -253,7 +253,7 @@ if (saveNewTaskBtn) {
 
         try {
             // FIX: Added /api prefix
-            const res = await fetch("/profile/preset", {
+            const res = await fetch("api/profile/preset", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -340,7 +340,7 @@ if (saveTimerBtn) {
                 setTimeout(() => timerDisplay.classList.remove("flash-success"), 1000);
 
                 // Update the timer service backend
-                await fetch("/task/current", {
+                await fetch("api/task/current", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ task_name: currentTask })
@@ -367,7 +367,7 @@ if (startBtn) {
         if (cubeAPI) cubeAPI.setBreathing(true);
 
         // Tell server to start timer
-        fetch("/task/control", {
+        fetch("api/task/control", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({ action: "start" })
