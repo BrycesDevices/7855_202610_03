@@ -253,7 +253,7 @@ if (saveNewTaskBtn) {
 
         try {
             // FIX: Added /api prefix
-            const res = await fetch("api/profile/preset", {
+            const res = await fetch("/api/profile/preset", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -367,7 +367,7 @@ if (startBtn) {
         if (cubeAPI) cubeAPI.setBreathing(true);
 
         // Tell server to start timer
-        fetch("api/task/control", {
+        fetch("/api/task/control", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({ action: "start" })
@@ -380,7 +380,7 @@ if (stopBtn) {
         isRunning = false;
         if (cubeAPI) cubeAPI.setBreathing(false);
 
-        fetch("/task/control", {
+        fetch("/api/task/control", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({ action: "stop" })
