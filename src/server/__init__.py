@@ -15,7 +15,7 @@ from src.server.blueprints.sessions import sessions_bp
 from src.server.blueprints.dashboard import dashboard_bp
 from src.server.blueprints.user_info import user_info_bp
 
-
+# Factory function to create Flask app instance
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
